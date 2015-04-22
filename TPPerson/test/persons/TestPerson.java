@@ -26,6 +26,12 @@ import people.EfficientPerson;
  */
 public class TestPerson {
     
+    IPerson p;
+    
+    public TestPerson(){
+        p =  new Person("Michel", "Barruque", 1999, 1, 1);  
+    }
+    
     @BeforeClass
     public static void setUpClass() {
     }
@@ -36,25 +42,7 @@ public class TestPerson {
     
     @Before
     public void setUp() {
-        String nom = "Barruque";
-        String prenom = "Michel";
-        GregorianCalendar date = new GregorianCalendar(2000, Calendar.JANUARY, 1);
-        GregorianCalendar currentDate = (GregorianCalendar) Calendar.getInstance();
-         
-        //Test personne 1 ans
-        IPerson p = new Person("Michel", "Barruque", 1999, 1, 1);  
-        
-        //Test personne pas née
-        IPerson p1 = new Person(prenom, nom, 2300, 1, 1);
-         
-        //Test personne née sur une date inexistante
-        IPerson p2 = new Person(prenom, nom, 2012, 31, 2);
-        
-        //Test personne -1ans
-        IPerson p3 = new Person(prenom, nom , 1999, 3, 1);
-        
-        //Test personne est le même jour
-        IPerson p4 = new Person(prenom, nom, 2000, 1, 1);
+
         
     }
     
@@ -64,17 +52,40 @@ public class TestPerson {
 
 
      @Test(expected = IllegalArgumentException.class)
-     public void testGetAge() {    
+     public void testGetAge() {   
+        GregorianCalendar date = new GregorianCalendar(2000, Calendar.JANUARY, 1);
+        
+        this.p = new Person("Michel", "Barruque", 2300, 1, 1);
         assertEquals(p.getAge(date), 1);
-        assertNull(p1.getAge(date));
-        assertNull(p2.getAge(date));
-        assertEquals(p3.getAge(date), 0);    
+        this.p = new Person("Michel", "Barruque", 2300, 1, 1);
+        assertNull(p.getAge(date));
+        this.p = new Person("Michel", "Barruque", 2012, 31, 2);
+        assertNull(p.getAge(date));
+        this.p = new Person("Michel", "Barruque", 2000, 1, 1); 
+        assertEquals(p.getAge(date), 0);    
     }
      
-     @Test
+     @Test(expected = java.lang.IllegalArgumentException.class)
      public void testWasBorn() {
-        assertTrue(p4.wasBorn(currentDate));
-        assertFalse(p2.wasBorn(currentDate));
-        assertTrue(p3.wasBorn(currentDate));      
+        GregorianCalendar currentDate = (GregorianCalendar) Calendar.getInstance();
+         
+        //Test personne 1 ans
+        this.p = new Person("Michel", "Barruque", 1999, 1, 1);  
+        assertTrue(p.wasBorn(currentDate));
+        //Test personne pas née
+        this.p = new Person("Michel", "Barruque", 2300, 1, 1);
+        assertFalse(p.wasBorn(currentDate));
+
+        //Test personne née sur une date inexistante
+        this.p = new Person("Michel", "Barruque", 2012, 31, 2);
+        assertFalse(p.wasBorn(currentDate));
+
+        //Test personne -1ans
+        IPerson p3 = new Person("Michel", "Barruque" , 1999, 3, 1);
+        assertFalse(p.wasBorn(currentDate));
+        
+        //Test personne est le même jour
+        this.p = new Person("Michel", "Barruque", 2000, 1, 1);        
+        assertTrue(p.wasBorn(currentDate)); 
      }
 }
