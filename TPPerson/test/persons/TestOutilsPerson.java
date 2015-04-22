@@ -84,6 +84,8 @@ public class TestOutilsPerson {
          //On test que la méthode getName() n'a jamais été appelé sur le mock p1
          Mockito.verify(p1, never()).getName();
          Mockito.verify(p2, never()).getName();
+         Mockito.verify(p1, never()).getFirstName();
+         Mockito.verify(p2, never()).getFirstName();
      }
      
 }
