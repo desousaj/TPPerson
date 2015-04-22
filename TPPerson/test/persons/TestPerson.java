@@ -20,11 +20,8 @@ import org.junit.Test;
  */
 public class TestPerson {
     
-    IPerson p;
+    protected IPerson p;
     
-    public TestPerson(){
-        p =  new Person("Michel", "Barruque", 2000, 1, 1);  
-    }
     
     @BeforeClass
     public static void setUpClass() {
@@ -36,8 +33,7 @@ public class TestPerson {
     
     @Before
     public void setUp() {
-
-        
+        p =  new Person("Michel", "Barruque", 2000, 1, 1);       
     }
     
     @After
